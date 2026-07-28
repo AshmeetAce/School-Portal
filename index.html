@@ -172,36 +172,62 @@
 <div id="toast"></div>
 
 <script>
-// ── DATA ──────────────────────────────────────────────────────────
-var students = [
-  {adm:"100100",name:"Sameer Behera",  sex:"MALE",  cls:12,sec:"A",phone:"546788776",  email:"sam123@gmail.com",            stream:"SCIENCE",  marks:567},
-  {adm:"100101",name:"Ashmeet Singh",  sex:"MALE",  cls:12,sec:"A",phone:"7291821313", email:"Ashmeetace@gmail.com",        stream:"SCIENCE",  marks:486},
-  {adm:"100102",name:"Gurman Singh",   sex:"MALE",  cls:11,sec:"B",phone:"9540921313", email:"Gurmanace@gmail.com",         stream:"COMMERCE", marks:480},
-  {adm:"100103",name:"Parth Teotia",   sex:"MALE",  cls:10,sec:"B",phone:"9758461384", email:"Parth_teotia_1234@gmail.com", stream:"SCIENCE",  marks:480},
-  {adm:"100104",name:"Mahi Ruhela",    sex:"FEMALE",cls:12,sec:"B",phone:"8467915384", email:"Ruhela123Mahi@gmail.com",     stream:"COMMERCE", marks:500},
-  {adm:"100105",name:"Ginni Chaudhary",sex:"FEMALE",cls:11,sec:"A",phone:"9745612856", email:"Ginni_4839@gmail.com",        stream:"SCIENCE",  marks:520},
-  {adm:"100106",name:"Devesh Singh",   sex:"MALE",  cls:12,sec:"A",phone:"7945864789", email:"DeveshSingh200@gmail.com",    stream:"ARTS",     marks:450},
-  {adm:"100107",name:"Akshara Rastogi",sex:"FEMALE",cls:12,sec:"B",phone:"8497513652", email:"Akshara321@gmail.com",        stream:"COMMERCE", marks:550},
-];
-var teachers = [
-  {id:1,name:"Daljeet Kaur",     subject:"English",         phone:"9971521313",email:"Daljeetk85@gmail.com"},
-  {id:2,name:"Abhishek Singh",   subject:"Biology",         phone:"7849515698",email:"AbhishekSingh123@gmail.com"},
-  {id:3,name:"Archana Bhatnager",subject:"Computer Science",phone:"7849561548",email:"Arhcana_9302@gmail.com"},
-  {id:4,name:"Ananaya Upadhaya", subject:"Psychology",      phone:"8495487945",email:"Ananaya_Upadaya1920@gmail.com"},
-  {id:5,name:"Ashok Aggarwal",   subject:"Physics",         phone:"9485461378",email:"AshokAggarwal2000@gmail.com"},
-  {id:6,name:"Priti Singhal",    subject:"Chemistry",       phone:"8497564521",email:"PritiSinghal450@gmail.com"},
-];
-var feedback = [
-  {id:1,text:"Ashmeet Singh is an above avg Student"},
-  {id:2,text:"Gurman Singh is an avg Student"},
-  {id:3,text:"Parth Teotia is intelligent but nervous in exam which affects his scores"},
-  {id:4,text:"Mahi is an excellent problem solver"},
-  {id:5,text:"Ginni is the topper of the class"},
-  {id:6,text:"Akshara is the most extrovert student"},
-  {id:7,text:"Devesh has good critical thinking skills"},
-];
+// ── DATA & LOCAL STORAGE ──────────────────────────────────────────
+var DEFAULT_DATA = {
+  students: [
+    {adm:"100100",name:"Sameer Behera",  sex:"MALE",  cls:12,sec:"A",phone:"546788776",  email:"sam123@gmail.com",            stream:"SCIENCE",  marks:567},
+    {adm:"100101",name:"Ashmeet Singh",  sex:"MALE",  cls:12,sec:"A",phone:"7291821313", email:"Ashmeetace@gmail.com",        stream:"SCIENCE",  marks:486},
+    {adm:"100102",name:"Gurman Singh",   sex:"MALE",  cls:11,sec:"B",phone:"9540921313", email:"Gurmanace@gmail.com",         stream:"COMMERCE", marks:480},
+    {adm:"100103",name:"Parth Teotia",   sex:"MALE",  cls:10,sec:"B",phone:"9758461384", email:"Parth_teotia_1234@gmail.com", stream:"SCIENCE",  marks:480},
+    {adm:"100104",name:"Mahi Ruhela",    sex:"FEMALE",cls:12,sec:"B",phone:"8467915384", email:"Ruhela123Mahi@gmail.com",     stream:"COMMERCE", marks:500},
+    {adm:"100105",name:"Ginni Chaudhary",sex:"FEMALE",cls:11,sec:"A",phone:"9745612856", email:"Ginni_4839@gmail.com",        stream:"SCIENCE",  marks:520},
+    {adm:"100106",name:"Devesh Singh",   sex:"MALE",  cls:12,sec:"A",phone:"7945864789", email:"DeveshSingh200@gmail.com",    stream:"ARTS",     marks:450},
+    {adm:"100107",name:"Akshara Rastogi",sex:"FEMALE",cls:12,sec:"B",phone:"8497513652", email:"Akshara321@gmail.com",        stream:"COMMERCE", marks:550}
+  ],
+  teachers: [
+    {id:1,name:"Daljeet Kaur",     subject:"English",         phone:"9971521313",email:"Daljeetk85@gmail.com"},
+    {id:2,name:"Abhishek Singh",   subject:"Biology",         phone:"7849515698",email:"AbhishekSingh123@gmail.com"},
+    {id:3,name:"Archana Bhatnager",subject:"Computer Science",phone:"7849561548",email:"Arhcana_9302@gmail.com"},
+    {id:4,name:"Ananaya Upadhaya", subject:"Psychology",      phone:"8495487945",email:"Ananaya_Upadaya1920@gmail.com"},
+    {id:5,name:"Ashok Aggarwal",   subject:"Physics",         phone:"9485461378",email:"AshokAggarwal2000@gmail.com"},
+    {id:6,name:"Priti Singhal",    subject:"Chemistry",       phone:"8497564521",email:"PritiSinghal450@gmail.com"}
+  ],
+  feedback: [
+    {id:1,text:"Ashmeet Singh is an above avg Student"},
+    {id:2,text:"Gurman Singh is an avg Student"},
+    {id:3,text:"Parth Teotia is intelligent but nervous in exam which affects his scores"},
+    {id:4,text:"Mahi is an excellent problem solver"},
+    {id:5,text:"Ginni is the topper of the class"},
+    {id:6,text:"Akshara is the most extrovert student"},
+    {id:7,text:"Devesh has good critical thinking skills"}
+  ]
+};
 
-var ADMIN_PASS="Ash3006", currentRole="admin", currentPage="dashboard";
+var STORAGE_KEY = "school_system_db";
+
+function loadStorage() {
+  var data = localStorage.getItem(STORAGE_KEY);
+  if (!data) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(DEFAULT_DATA));
+    return JSON.parse(JSON.stringify(DEFAULT_DATA));
+  }
+  return JSON.parse(data);
+}
+
+function saveStorage() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify({
+    students: students,
+    teachers: teachers,
+    feedback: feedback
+  }));
+}
+
+var db = loadStorage();
+var students = db.students || [];
+var teachers = db.teachers || [];
+var feedback = db.feedback || [];
+
+var ADMIN_PASS="Schoolsystem", currentRole="admin", currentPage="dashboard";
 var streamFilter="ALL", editingStudent=null, editingTeacher=null;
 var currentSearch="";
 
@@ -271,8 +297,6 @@ function val(id){ var el=document.getElementById(id); return el?el.value:""; }
 function closeModal(){ var m=document.getElementById("modalOverlay"); if(m)m.remove(); }
 
 // ── AUTOCOMPLETE SEARCH WIDGET ────────────────────────────────────
-// Renders a smart search box with live dropdown suggestions
-// dataSource: array of objects, searchKeys: fields to search, displayFn: how to render each suggestion
 function buildSearchBox(containerId, placeholder, dataSource, onSelect, onChange) {
   var box = document.getElementById(containerId);
   if (!box) return;
@@ -284,7 +308,6 @@ function buildSearchBox(containerId, placeholder, dataSource, onSelect, onChange
       '<div class="suggest-box" id="suggestBox"></div>'+
     '</div>';
 
-  // Store callbacks globally so inline handlers can reach them
   window._searchDataSource = dataSource;
   window._searchOnSelect   = onSelect;
   window._searchOnChange   = onChange;
@@ -295,11 +318,9 @@ window.handleSearchInput = function() {
   var q = input ? input.value.trim() : "";
   currentSearch = q;
 
-  // Show/hide clear button
   var clearBtn = document.getElementById("searchClearBtn");
   if (clearBtn) clearBtn.style.display = q ? "block" : "none";
 
-  // Filter suggestions
   var src = window._searchDataSource || [];
   var matches = q.length === 0 ? src : src.filter(function(s){
     return s.name.toLowerCase().includes(q.toLowerCase()) || s.adm.includes(q);
@@ -312,9 +333,7 @@ window.handleSearchInput = function() {
     box.innerHTML = '<div class="no-results">😕 No student found</div>';
     box.style.display = "block";
   } else {
-    // Build suggestion items
     box.innerHTML = matches.slice(0,8).map(function(s){
-      // Highlight matching part of name
       var highlighted = s.name;
       if (q) {
         var idx = s.name.toLowerCase().indexOf(q.toLowerCase());
@@ -337,7 +356,6 @@ window.handleSearchInput = function() {
     box.style.display = "block";
   }
 
-  // Also run onChange (re-filter table)
   if (window._searchOnChange) window._searchOnChange(q);
 };
 
@@ -431,9 +449,8 @@ function renderStudents(){
     '</div>'+
     '<div id="studentTable"></div>';
 
-  // Build the smart search box
   buildSearchBox("searchContainer", "🔍  Type a name or admission no...", students,
-    null, // onSelect already updates via onChange
+    null,
     function(q){ refreshStudentTable(q); }
   );
 
@@ -502,12 +519,14 @@ function saveStudent(){
   if(editingStudent){
     var idx=students.findIndex(function(s){return s.adm===editingStudent.adm;});
     students[idx]={adm:editingStudent.adm,name,sex,cls,sec,phone,email,stream,marks};
+    saveStorage();
     toast("Student updated",true);
   } else {
     var adm=val("adm");
     if(!adm){alert("Enter Admission No.");return;}
     if(students.find(function(s){return s.adm===adm;})){toast("Admission No. already exists",false);return;}
     students.push({adm,name,sex,cls,sec,phone,email,stream,marks});
+    saveStorage();
     toast("Student added",true);
   }
   closeModal(); renderStudents();
@@ -515,6 +534,7 @@ function saveStudent(){
 function deleteStudent(adm){
   if(!confirm("Delete this student?"))return;
   students=students.filter(function(s){return s.adm!==adm;});
+  saveStorage();
   toast("Student deleted",true); renderStudents();
 }
 
@@ -563,12 +583,14 @@ function saveTeacher(){
   if(editingTeacher){
     var idx=teachers.findIndex(function(t){return t.id===editingTeacher.id;});
     teachers[idx]={id:editingTeacher.id,name,subject,phone,email};
+    saveStorage();
     toast("Teacher updated",true);
   } else {
     var id=parseInt(val("tid"));
     if(!id){alert("Enter Teacher ID");return;}
     if(teachers.find(function(t){return t.id===id;})){toast("Teacher ID exists",false);return;}
     teachers.push({id,name,subject,phone,email});
+    saveStorage();
     toast("Teacher added",true);
   }
   closeModal(); renderTeachers();
@@ -576,6 +598,7 @@ function saveTeacher(){
 function deleteTeacher(id){
   if(!confirm("Delete this teacher?"))return;
   teachers=teachers.filter(function(t){return t.id!==id;});
+  saveStorage();
   toast("Teacher deleted",true); renderTeachers();
 }
 
@@ -634,10 +657,12 @@ function addFeedback(){
   var t=document.getElementById("fbText").value.trim();
   if(!t)return;
   feedback.push({id:Date.now(),text:t});
+  saveStorage();
   toast("Feedback submitted",true); renderFeedback();
 }
 function deleteFeedback(id){
   feedback=feedback.filter(function(f){return f.id!==id;});
+  saveStorage();
   toast("Feedback deleted",true); renderFeedback();
 }
 
